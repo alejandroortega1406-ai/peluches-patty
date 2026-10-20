@@ -55,11 +55,11 @@
 .icon-btn .ic{width:20px;height:20px}.role-chip .ic{width:16px;height:16px}.favorite .ic{width:18px;height:18px}
 .searchbox .ic,.search-mini .ic{color:var(--muted)}
 .favorite.on{color:#c9246f;background:#fff}.favorite.on .ic{fill:currentColor}
-.link-btn{background:none;border:0;padding:0;font:inherit;letter-spacing:inherit;color:inherit;text-align:left;cursor:pointer}.link-btn:hover{color:var(--violet)}
+.link-btn{background:none;border:0;padding:0;font:inherit;letter-spacing:inherit;color:inherit;text-align:left;cursor:pointer}.link-btn:hover{color:var(--violet)}.link-btn{min-height:28px;display:inline-flex;align-items:center}
 .noimg{position:relative}.noimg::after{content:"🧸";position:relative;font-size:var(--fb,56px);filter:drop-shadow(0 8px 8px #51406921)}
 .product-visual.noimg{--fb:84px}.table-thumb.noimg{--fb:22px}.cart-image.noimg{--fb:34px}.promo-img.noimg,.detail-visual.noimg,.hero-plush.noimg{--fb:96px}
 .btn.small,.plain-action,.status-select,.catalog-toolbar select{min-height:36px}
-@media(pointer:coarse){.btn.small,.plain-action,.status-select,.icon-btn,.favorite,.qty-control button,.segmented button,.category-pill,.nav-btn,.catalog-toolbar select{min-height:44px;min-width:44px}.favorite{width:44px;height:44px}.field input,.field select,.field textarea{min-height:44px}}
+@media(pointer:coarse),(max-width:820px){.btn.small,.plain-action,.status-select,.icon-btn,.favorite,.qty-control button,.segmented button,.category-pill,.nav-btn,.role-chip,.catalog-toolbar select{min-height:44px;min-width:44px}.favorite{width:44px;height:44px}.field input,.field select,.field textarea{min-height:44px}}
 .modal-card:focus{outline:none}
 </style>
 </head>
@@ -169,7 +169,7 @@ function photoThumb(p){return `<span class="table-thumb">${p.image?productImage(
 function notify(text){const el=document.createElement('div');el.className='toast';el.textContent=text;$('#toastStack').append(el);setTimeout(()=>el.remove(),3200);}
 function roleName(){return S.role==='dispatcher'?'Despachador / Admin':'Usuario';}
 function brand(){return `<div class="logo"><div class="logo-mark" aria-hidden="true"><svg class="ic fill" aria-hidden="true" focusable="false"><use href="#i-heart"/></svg></div><div class="logo-name">Peluches <em>Patty</em></div></div>`;}
-function navItems(){if(S.role==='dispatcher')return [['dispatch','Despachos','qr'],['dispatchOrders','Pedidos','list'],['manage','Productos y promociones','settings']];return [['store','Inicio','home'],['catalog','Catálogo','grid'],['promotions','Promociones','sparkles'],...(S.lastOrderId?[['myOrder','Mi pedido','box']]:[])];}
+function navItems(){if(S.role==='dispatcher')return [['dispatch','Despachos','qr'],['dispatchOrders','Pedidos','list'],['manage','Productos','settings']];return [['store','Inicio','home'],['catalog','Catálogo','grid'],['promotions','Promociones','sparkles'],...(S.lastOrderId?[['myOrder','Mi pedido','box']]:[])];}
 function topbar(){return `<header class="topbar">${brand()}<nav class="main-nav" aria-label="Navegación principal">${navItems().map(([id,label,ico])=>`<button class="nav-btn ${S.view===id?'active':''}" data-view="${id}" ${S.view===id?'aria-current="page"':''}>${ic(ico)} ${label}</button>`).join('')}</nav><div class="top-actions">${S.role==='user'?`<label class="search-mini">${ic('search')} <input id="quickSearch" aria-label="Buscar peluches" value="${esc(S.query)}" placeholder="Buscar peluches..."></label><button class="icon-btn" data-action="openCart" aria-label="Abrir carrito">${ic('cart')}<span class="badge-count ${cartCount()?'':'hidden'}">${cartCount()}</span></button>`:''}<button class="role-chip" data-action="changeRole" aria-label="Cambiar de perfil (actual: ${roleName()})">${ic('user')} <span>${roleName()}</span> ${ic('swap')}</button></div></header>`;}
 function cartCount(){return Object.values(S.cart).reduce((a,b)=>a+b,0);}
 function pageShell(content){return `${topbar()}<main class="app-main"><div class="view">${content}</div><footer class="footer"><span>${brand()}<small>Un detalle de ternura, una oportunidad para crecer.</small></span><span>Peluches Patty · <strong>Prototipo demostrativo</strong><br>Los productos, pedidos y estados son demostrativos; la administración está reservada al perfil Despachador.<br>Fotos de ejemplo: <a href="https://www.pexels.com" target="_blank" rel="noopener" style="text-decoration:underline">Pexels</a>.</span></footer></main>`;}
